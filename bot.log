@@ -1,0 +1,186 @@
+INFO:root:Пользователь 746047857 запросил информацию о релизе
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил поиск email
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:Пользователь 746047857 запросил поиск email
+INFO:root:Пользователь 746047857 запросил поиск номеров телефона
+INFO:root:User 746047857 requested password verification
+INFO:root:User 746047857 requested password verification
+INFO:root:Пользователь 746047857 запросил информацию о релизе
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:User 746047857 requested password verification
+INFO:root:Пользователь 746047857 запросил информацию о релизе
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о релизе
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию об архитектуре процессора, имени хоста системы и версии ядра
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о времени работы системы
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о времени работы системы
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о состоянии файловой системы
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о состоянии оперативной памяти
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о состоянии оперативной памяти
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о производительности системы
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о работающих в данной системе пользователях
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил последние 10 входов в систему из логов
+INFO:root:Пользователь 746047857 запросил информацию о последних 10 входах в систему
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о последних 5 критических событиях
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+ERROR:TeleBot:Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message text is empty
+ERROR:TeleBot:Exception traceback:
+Traceback (most recent call last):
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1206, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 93, in run
+    task(*args, **kwargs)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 8404, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\main.py", line 161, in get_critical
+    bot.send_message(message.chat.id, output)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1742, in send_message
+    apihelper.send_message(
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 270, in send_message
+    return _make_request(token, method_url, params=payload, method='post')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 167, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 194, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message text is empty
+
+INFO:root:Пользователь 746047857 запросил информацию о последних 5 критических событиях
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+ERROR:TeleBot:Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message text is empty
+ERROR:TeleBot:Exception traceback:
+Traceback (most recent call last):
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1206, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 93, in run
+    task(*args, **kwargs)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 8404, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\main.py", line 161, in get_critical
+    bot.send_message(message.chat.id, output)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1742, in send_message
+    apihelper.send_message(
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 270, in send_message
+    return _make_request(token, method_url, params=payload, method='post')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 167, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 194, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message text is empty
+
+INFO:root:Пользователь 746047857 запросил информацию о последних 5 критических событиях
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о запущенных процессах
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+ERROR:TeleBot:Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message is too long
+ERROR:TeleBot:Exception traceback:
+Traceback (most recent call last):
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1206, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 93, in run
+    task(*args, **kwargs)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 8404, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\main.py", line 169, in get_ps
+    bot.send_message(message.chat.id, output)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1742, in send_message
+    apihelper.send_message(
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 270, in send_message
+    return _make_request(token, method_url, params=payload, method='post')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 167, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 194, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message is too long
+
+INFO:root:Пользователь 746047857 запросил информацию о запущенных процессах
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+ERROR:TeleBot:Threaded polling exception: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message is too long
+ERROR:TeleBot:Exception traceback:
+Traceback (most recent call last):
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1206, in __threaded_polling
+    self.worker_pool.raise_exceptions()
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 150, in raise_exceptions
+    raise self.exception_info
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\util.py", line 93, in run
+    task(*args, **kwargs)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 8404, in _run_middlewares_and_handler
+    result = handler['function'](message)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\main.py", line 169, in get_ps
+    bot.send_message(message.chat.id, output)
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\__init__.py", line 1742, in send_message
+    apihelper.send_message(
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 270, in send_message
+    return _make_request(token, method_url, params=payload, method='post')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 167, in _make_request
+    json_result = _check_result(method_name, result)
+                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\drnik\PycharmProjects\PT-Start_bot\.venv\Lib\site-packages\telebot\apihelper.py", line 194, in _check_result
+    raise ApiTelegramException(method_name, result, result_json)
+telebot.apihelper.ApiTelegramException: A request to the Telegram API was unsuccessful. Error code: 400. Description: Bad Request: message is too long
+
+INFO:root:Пользователь 746047857 запросил информацию о запущенных процессах
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию об используемых портах
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию об установленных пакетах
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
+INFO:root:Пользователь 746047857 запросил информацию о запущенных сервисах
+INFO:paramiko.transport:Connected (version 2.0, client OpenSSH_9.6p1)
+INFO:paramiko.transport:Authentication (password) successful!
