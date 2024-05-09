@@ -3,6 +3,8 @@ import telebot
 import paramiko
 import re
 import logging
+import psycopg2
+from psycopg2 import Error
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -12,6 +14,11 @@ SSH_HOST = os.getenv('SSH_HOST')
 SSH_PORT = os.getenv('SSH_PORT')
 SSH_USERNAME = os.getenv('SSH_USERNAME')
 SSH_PASSWORD = os.getenv('SSH_PASSWORD')
+POSTGRESQL_USER = os.getenv('POSTGRESQL_USER')
+POSTGRESQL_PASSWORD = os.getenv('POSTGRESQL_PASSWORD')
+POSTGRESQL_HOST = os.getenv('POSTGRESQL_HOST')
+POSTGRESQL_PORT = os.getenv('POSTGRESQL_PORT')
+POSTGRESQL_DB = os.getenv('POSTGRESQL_DB')
 
 logging.basicConfig(filename='bot.log', level=logging.INFO)
 
@@ -32,11 +39,46 @@ def process_email_search(message):
     email_pattern = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
     emails = re.findall(email_pattern, text)
     if emails:
-        bot.send_message(message.chat.id, "Найденные email-адреса:")
+        response = "Найденные адреса электронной почты:\n"
         for email in emails:
-            bot.send_message(message.chat.id, email)
+            response += f"{email}\n"
+        bot.send_message(message.chat.id, response)
+        bot.send_message(message.chat.id, 'Хотите сохранить найденные адреса в базу данных? (Да/нет)')
+        bot.register_next_step_handler(message, save_emails_choice, emails)
     else:
         bot.send_message(message.chat.id, "Email-адреса не найдены.")
+
+
+# Функция для сохранения найденных email-адресов в БД
+def save_emails_to_db(emails):
+    try:
+        connection = psycopg2.connect(user=POSTGRESQL_USER,
+                                      password=POSTGRESQL_PASSWORD,
+                                      host=POSTGRESQL_HOST,
+                                      port=POSTGRESQL_PORT,
+                                      database=POSTGRESQL_DB)
+        cursor = connection.cursor()
+
+        for email in emails:
+            cursor.execute("INSERT INTO emails (emailAddress) VALUES (%s)", (email,))
+            connection.commit()
+
+        cursor.close()
+        connection.close()
+    except (Exception, Error) as error:
+        logging.error("Ошибка при работе с PostgreSQL: %s", error)
+
+
+# Функция для обработки выбора сохранения email-адресов в базе данных
+def save_emails_choice(message, emails):
+    choice = message.text.lower()
+    if choice == 'да':
+        save_emails_to_db(emails)
+        bot.send_message(message.chat.id, "Email-адреса успешно сохранены в базе данных.")
+    elif choice == 'нет':
+        bot.send_message(message.chat.id, "Email-адреса не сохранены.")
+    else:
+        bot.send_message(message.chat.id, "Неверный выбор. Пожалуйста, введите 'Да' или 'Нет'.")
 
 
 # Функция обработки номеров телефона
@@ -45,6 +87,26 @@ def find_phone_number(message):
     logging.info(f"Пользователь {message.from_user.id} запросил поиск номеров телефона")
     bot.send_message(message.chat.id, "Введите текст для поиска номеров телефонов:")
     bot.register_next_step_handler(message, process_phone_number_search)
+
+
+# Функция для сохранения найденных номеров телефонов в БД
+def save_phone_numbers_to_db(phone_numbers):
+    try:
+        connection = psycopg2.connect(user=POSTGRESQL_USER,
+                                      password=POSTGRESQL_PASSWORD,
+                                      host=POSTGRESQL_HOST,
+                                      port=POSTGRESQL_PORT,
+                                      database=POSTGRESQL_DB)
+        cursor = connection.cursor()
+
+        for phone_number in phone_numbers:
+            cursor.execute("INSERT INTO phoneNumbers (phoneNumber) VALUES (%s)", (phone_number,))
+            connection.commit()
+
+        cursor.close()
+        connection.close()
+    except (Exception, Error) as error:
+        logging.error("Ошибка при работе с PostgreSQL: %s", error)
 
 
 # Функция для обработки текста и поиска номеров телефонов
@@ -57,8 +119,22 @@ def process_phone_number_search(message):
         for phone_number in phone_numbers:
             response += f"{phone_number}\n"
         bot.send_message(message.chat.id, response)
+        bot.send_message(message.chat.id, 'Хотите сохранить найденные номера телефонов в базу данных? (Да/нет)')
+        bot.register_next_step_handler(message, save_phone_numbers_choice, phone_numbers)
     else:
         bot.send_message(message.chat.id, "Номера телефонов не найдены.")
+
+
+# Функция для обработки выбора сохранения номеров телефонов в БД
+def save_phone_numbers_choice(message, phone_numbers):
+    choice = message.text.lower()
+    if choice == 'да':
+        save_phone_numbers_to_db(phone_numbers)
+        bot.send_message(message.chat.id, "Номера телефонов успешно сохранены в базе данных.")
+    elif choice == 'нет':
+        bot.send_message(message.chat.id, "Номера телефонов не сохранены.")
+    else:
+        bot.send_message(message.chat.id, "Неверный выбор. Пожалуйста, введите 'Да' или 'Нет'.")
 
 
 # Функция-обработчик команды /verify_password
@@ -89,6 +165,7 @@ def ssh_command(host, port, username, password, command):
     client.close()
     return output
 
+
 # Информация о релизе
 @bot.message_handler(commands=['get_release'])
 def get_release(message):
@@ -100,7 +177,8 @@ def get_release(message):
 # Информация об архитектуре процессора, имени хоста системы и версии ядра
 @bot.message_handler(commands=['get_uname'])
 def get_uname(message):
-    logging.info(f"Пользователь {message.from_user.id} запросил информацию об архитектуре процессора, имени хоста системы и версии ядра")
+    logging.info(
+        f"Пользователь {message.from_user.id} запросил информацию об архитектуре процессора, имени хоста системы и версии ядра")
     output = ssh_command(SSH_HOST, int(SSH_PORT), SSH_USERNAME, SSH_PASSWORD, 'uname --all')
     bot.send_message(message.chat.id, output)
 
@@ -189,8 +267,79 @@ def get_apt_list(message):
 @bot.message_handler(commands=['get_services'])
 def get_services(message):
     logging.info(f"Пользователь {message.from_user.id} запросил информацию о запущенных сервисах")
-    output = ssh_command(SSH_HOST, int(SSH_PORT), SSH_USERNAME, SSH_PASSWORD, "systemctl list-units --type=service --state=running")
+    output = ssh_command(SSH_HOST, int(SSH_PORT), SSH_USERNAME, SSH_PASSWORD,
+                         "systemctl list-units --type=service --state=running")
     bot.send_message(message.chat.id, output)
+
+
+@bot.message_handler(commands=['get_repl_logs'])
+def get_repl_logs(message):
+    logging.info(f"Пользователь {message.from_user.id} запросил информацию логов о репликации")
+    output = ssh_command(SSH_HOST, int(SSH_PORT), SSH_USERNAME, SSH_PASSWORD,
+                         "cat /var/log/postgresql/postgresql-16-main.log | grep 8310")
+    bot.send_message(message.chat.id, output)
+
+
+@bot.message_handler(commands=['get_emails'])
+def get_emails(message):
+    logging.info(f"Пользователь {message.from_user.id} запросил информацию из БД о email-адресах")
+    connection = None
+    cursor = None
+    output = ''
+
+    try:
+        connection = psycopg2.connect(user=POSTGRESQL_USER,
+                                      password=POSTGRESQL_PASSWORD,
+                                      host=POSTGRESQL_HOST,
+                                      port=POSTGRESQL_PORT,
+                                      database=POSTGRESQL_DB)
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM emails")
+        data = cursor.fetchall()
+
+        for row in data:
+            output += f"{row[0]}. {row[1]}\n"
+
+        logging.info("Команда 'SELECT * FROM emails' успешно выполнена")
+        bot.send_message(message.chat.id, output)
+    except (Exception, Error) as error:
+        logging.error("Ошибка при работе с PostgreSQL: %s", error)
+    finally:
+        if connection is not None:
+            cursor.close()
+            connection.close()
+
+
+@bot.message_handler(commands=['get_phone_numbers'])
+def get_phone_numbers(message):
+    logging.info(f"Пользователь {message.from_user.id} запросил информацию из БД о номерах телефона")
+    connection = None
+    cursor = None
+    output = ''
+
+    try:
+        connection = psycopg2.connect(user=POSTGRESQL_USER,
+                                      password=POSTGRESQL_PASSWORD,
+                                      host=POSTGRESQL_HOST,
+                                      port=POSTGRESQL_PORT,
+                                      database=POSTGRESQL_DB)
+
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM phoneNumbers")
+        data = cursor.fetchall()
+
+        for row in data:
+            output += f"{row[0]}. {row[1]}\n"
+
+        logging.info("Команда 'SELECT * FROM phoneNumbers' успешно выполнена")
+        bot.send_message(message.chat.id, output)
+    except (Exception, Error) as error:
+        logging.error("Ошибка при работе с PostgreSQL: %s", error)
+    finally:
+        if connection is not None:
+            cursor.close()
+            connection.close()
 
 
 # Запуск бота
