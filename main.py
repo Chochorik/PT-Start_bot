@@ -275,9 +275,24 @@ def get_services(message):
 @bot.message_handler(commands=['get_repl_logs'])
 def get_repl_logs(message):
     logging.info(f"Пользователь {message.from_user.id} запросил информацию логов о репликации")
-    output = ssh_command(SSH_HOST, int(SSH_PORT), SSH_USERNAME, SSH_PASSWORD,
-                         "cat /var/log/postgresql/postgresql-16-main.log | grep 8310")
-    bot.send_message(message.chat.id, output)
+    client = paramiko.SSHClient()
+    client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    client.connect(hostname=host, username=username, password=password, port=port)
+    stdin, stdout, stderr = client.exec_command(f'cat /var/log/postgresql/* | grep repl | tail -n 20')
+    data = stdout.read() + stderr.read()
+    client.close()
+    data = str(data).replace('\\n', '\n').replace('\\t', '\t')[2:-1]
+    text = ''
+    for line in data.split('\n'):
+        if 'repl' in line:
+            text += line + '\n'
+    if len(text)==0:
+        text = 'Логи репликации не найдены'
+        await message.answer(text)
+        return None
+    if len(text)>3000:
+        text = text[:3000]
+    bot.send_message(message.chat.id, text)
 
 
 @bot.message_handler(commands=['get_emails'])
