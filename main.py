@@ -286,11 +286,9 @@ def get_repl_logs(message):
     for line in data.split('\n'):
         if 'repl' in line:
             text += line + '\n'
-    if len(text)==0:
+    if len(text) == 0:
         text = 'Логи репликации не найдены'
-        await message.answer(text)
-        return None
-    if len(text)>3000:
+    if len(text) > 3000:
         text = text[:3000]
     bot.send_message(message.chat.id, text)
 
