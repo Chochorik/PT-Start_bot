@@ -1,3 +1,4 @@
-paramiko==3.4.0
-python-dotenv==1.0.1
-pyTelegramBotApi==4.17.0
+pyTelegramBotAPI
+paramiko
+psycopg2
+python-dotenv
