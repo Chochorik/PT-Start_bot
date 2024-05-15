@@ -19,9 +19,9 @@ POSTGRESQL_PASSWORD = os.getenv('POSTGRESQL_PASSWORD')
 POSTGRESQL_HOST = os.getenv('POSTGRESQL_HOST')
 POSTGRESQL_PORT = os.getenv('POSTGRESQL_PORT')
 POSTGRESQL_DB = os.getenv('POSTGRESQL_DB')
-SSH_DB_USER = os.getenv('DB_SSH_USER')
-SSH_DB_PORT = os.getenv('DB_SSH_PORT')
-SSH_DB_PASSWORD = os.getenv('DB_SSH_PASSWORD')
+SSH_DB_USER = os.getenv('SSH_DB_USER')
+SSH_DB_PORT = os.getenv('SSH_DB_PORT')
+SSH_DB_PASSWORD = os.getenv('SSH_DB_PASSWORD')
 
 logging.basicConfig(filename='bot.log', level=logging.INFO)
 
