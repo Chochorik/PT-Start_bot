@@ -19,6 +19,9 @@ POSTGRESQL_PASSWORD = os.getenv('POSTGRESQL_PASSWORD')
 POSTGRESQL_HOST = os.getenv('POSTGRESQL_HOST')
 POSTGRESQL_PORT = os.getenv('POSTGRESQL_PORT')
 POSTGRESQL_DB = os.getenv('POSTGRESQL_DB')
+SSH_DB_USER = os.getenv('DB_SSH_USER')
+SSH_DB_PORT = os.getenv('DB_SSH_PORT')
+SSH_DB_PASSWORD = os.getenv('DB_SSH_PASSWORD')
 
 logging.basicConfig(filename='bot.log', level=logging.INFO)
 
@@ -277,7 +280,7 @@ def get_repl_logs(message):
     logging.info(f"Пользователь {message.from_user.id} запросил информацию логов о репликации")
     client = paramiko.SSHClient()
     client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-    client.connect(hostname=host, username=username, password=password, port=port)
+    client.connect(hostname=POSTGRESQL_HOST, username=SSH_DB_USER, password=SSH_DB_PASSWORD, port=int(SSH_DB_PORT))
     stdin, stdout, stderr = client.exec_command(f'cat /var/log/postgresql/* | grep repl | tail -n 20')
     data = stdout.read() + stderr.read()
     client.close()
