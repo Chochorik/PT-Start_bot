@@ -1,4 +1,3 @@
 pyTelegramBotAPI
 paramiko
-psycopg2
 python-dotenv
