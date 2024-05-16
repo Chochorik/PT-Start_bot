@@ -309,7 +309,7 @@ def get_emails(message):
                                       database=POSTGRESQL_DB)
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM emails")
+        cursor.execute('SELECT * FROM "emails"')
         data = cursor.fetchall()
 
         for row in data:
@@ -343,7 +343,7 @@ def get_phone_numbers(message):
                                       database=POSTGRESQL_DB)
 
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM phoneNumbers")
+        cursor.execute('SELECT * FROM "phoneNumbers"')
         data = cursor.fetchall()
 
         for row in data:
