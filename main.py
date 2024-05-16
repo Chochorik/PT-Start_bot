@@ -318,7 +318,10 @@ def get_emails(message):
             output += f"{row[0]}. {row[1]}\n"
 
         logging.info("Команда 'SELECT * FROM emails' успешно выполнена")
-        bot.send_message(message.chat.id, output)
+        if output:
+            bot.send_message(message.chat.id, output)
+        else:
+            bot.send_message(message.chat.id, 'Email-адреса не найдены...')
     except (Exception, Error) as error:
         logging.error("Ошибка при работе с PostgreSQL: %s", error)
     finally:
@@ -349,7 +352,10 @@ def get_phone_numbers(message):
             output += f"{row[0]}. {row[1]}\n"
 
         logging.info("Команда 'SELECT * FROM phoneNumbers' успешно выполнена")
-        bot.send_message(message.chat.id, output)
+        if output:
+            bot.send_message(message.chat.id, output)
+        else:
+            bot.send_message(message.chat.id, 'Номера телефонов не найдены...')
     except (Exception, Error) as error:
         logging.error("Ошибка при работе с PostgreSQL: %s", error)
     finally:
