@@ -55,21 +55,18 @@ def process_email_search(message):
 # Функция для сохранения найденных email-адресов в БД
 def save_emails_to_db(emails):
     try:
-        connection = psycopg2.connect(user=POSTGRESQL_USER,
-                                      password=POSTGRESQL_PASSWORD,
-                                      host=POSTGRESQL_HOST,
-                                      port=POSTGRESQL_PORT,
-                                      database=POSTGRESQL_DB)
-        cursor = connection.cursor()
-
-        for email in emails:
-            cursor.execute('SELECT 1 FROM "emails" WHERE "emailAddress" = %s', (email,))
-            if cursor.fetchone() is None:  # Если email не найден в базе данных
-                cursor.execute('INSERT INTO "emails" ("emailAddress") VALUES (%s)', (email,))
-                connection.commit()
-
-        cursor.close()
-        connection.close()
+        with psycopg2.connect(user=POSTGRESQL_USER,
+                              password=POSTGRESQL_PASSWORD,
+                              host=POSTGRESQL_HOST,
+                              port=POSTGRESQL_PORT,
+                              database=POSTGRESQL_DB) as connection:
+            with connection.cursor() as cursor:
+                for email in emails:
+                    cursor.execute(
+                        'INSERT INTO "emails" ("emailAddress") VALUES (%s) ON CONFLICT ("emailAddress") DO NOTHING',
+                        (email,)
+                    )
+        logging.info("Email-адреса успешно сохранены в базе данных.")
     except (Exception, Error) as error:
         logging.error("Ошибка при работе с PostgreSQL: %s", error)
 
@@ -97,21 +94,18 @@ def find_phone_number(message):
 # Функция для сохранения найденных номеров телефонов в БД
 def save_phone_numbers_to_db(phone_numbers):
     try:
-        connection = psycopg2.connect(user=POSTGRESQL_USER,
-                                      password=POSTGRESQL_PASSWORD,
-                                      host=POSTGRESQL_HOST,
-                                      port=POSTGRESQL_PORT,
-                                      database=POSTGRESQL_DB)
-        cursor = connection.cursor()
-
-        for phone_number in phone_numbers:
-            cursor.execute('SELECT 1 FROM "phoneNumbers" WHERE "phoneNumber" = %s', (phone_number,))
-            if cursor.fetchone() is None:  # Если номер телефона не найден в базе данных
-                cursor.execute('INSERT INTO "phoneNumbers" ("phoneNumber") VALUES (%s)', (phone_number,))
-                connection.commit()
-
-        cursor.close()
-        connection.close()
+        with psycopg2.connect(user=POSTGRESQL_USER,
+                              password=POSTGRESQL_PASSWORD,
+                              host=POSTGRESQL_HOST,
+                              port=POSTGRESQL_PORT,
+                              database=POSTGRESQL_DB) as connection:
+            with connection.cursor() as cursor:
+                for phone_number in phone_numbers:
+                    cursor.execute(
+                        'INSERT INTO "phoneNumbers" ("phoneNumber") VALUES (%s) ON CONFLICT ("phoneNumber") DO NOTHING',
+                        (phone_number,)
+                    )
+        logging.info("Номера телефонов успешно сохранены в базе данных.")
     except (Exception, Error) as error:
         logging.error("Ошибка при работе с PostgreSQL: %s", error)
 
