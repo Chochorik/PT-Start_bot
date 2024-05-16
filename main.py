@@ -63,7 +63,7 @@ def save_emails_to_db(emails):
             with connection.cursor() as cursor:
                 for email in emails:
                     cursor.execute(
-                        'INSERT INTO "emails" ("emailAddress") VALUES (%s) ON CONFLICT ("emailAddress") DO NOTHING',
+                        'INSERT INTO "emails" (emailAddress) VALUES (%s) ON CONFLICT (emailAddress) DO NOTHING',
                         (email,)
                     )
         logging.info("Email-адреса успешно сохранены в базе данных.")
@@ -102,7 +102,7 @@ def save_phone_numbers_to_db(phone_numbers):
             with connection.cursor() as cursor:
                 for phone_number in phone_numbers:
                     cursor.execute(
-                        'INSERT INTO "phoneNumbers" ("phoneNumber") VALUES (%s) ON CONFLICT ("phoneNumber") DO NOTHING',
+                        'INSERT INTO "phoneNumbers" (phoneNumber) VALUES (%s) ON CONFLICT (phoneNumber) DO NOTHING',
                         (phone_number,)
                     )
         logging.info("Номера телефонов успешно сохранены в базе данных.")
